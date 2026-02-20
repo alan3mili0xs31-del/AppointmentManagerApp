@@ -1,4 +1,6 @@
-﻿using AppDocumentada.Dominio.AppointmentUseCases;
+﻿using AppDocumentada.Dominio;
+using AppDocumentada.Dominio.AppointmentUseCases;
+using AppointmentUI.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,16 +13,33 @@ using System.Windows.Forms;
 
 namespace AppointmentUI
 {
-    public partial class AppointmentCreator : Form
+    public partial class AppointmentCreator : Form, ILoadAppointmentDetails
     {
         private readonly CreateAppointmentUseCase _createAppointment;
+        private readonly UpdateAppointmentUseCase _updateAppointment;
+        public bool EditMode { get; private set; } = false;
+        private Guid _selectedAppointmentId = Guid.Empty;
 
         public AppointmentCreator(
-            CreateAppointmentUseCase createAppointmentUC)
+            CreateAppointmentUseCase createAppointmentUC,
+            UpdateAppointmentUseCase updateAppointment)
         {
             _createAppointment = createAppointmentUC;
+            _updateAppointment = updateAppointment;
 
             InitializeComponent();
+        }
+
+        public void ChangeToEditMode()
+        {
+            EditMode = true;
+            BtnCreateAppointment.Text = "Submit Changes";
+        }
+
+        public void ChangeToCreateMode()
+        {
+            EditMode = false;
+            BtnCreateAppointment.Text = "Create Appointment";
         }
 
         private void AppointmentCreator_FormClosing(object sender, FormClosingEventArgs e)
@@ -31,7 +50,28 @@ namespace AppointmentUI
 
         private void BtnCreateAppointment_Click(object sender, EventArgs e)
         {
-            CreateAppointment();
+            if (!EditMode)
+                CreateAppointment();
+            else
+                EditAppointment();
+        }
+
+        private void EditAppointment()
+        {
+            try
+            {
+                string title = TxtbAppointmentTitle.Text.Trim();
+                string description = RtbAppointmentDescription.Text.Trim();
+                DateTime dueDate = DtpAppointmentDueDate.Value;
+
+                _updateAppointment.Execute(_selectedAppointmentId, title, description, dueDate);
+
+                CleanControls();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void CreateAppointment()
@@ -57,6 +97,14 @@ namespace AppointmentUI
             TxtbAppointmentTitle.Text = string.Empty;
             RtbAppointmentDescription.Text = string.Empty;
             DtpAppointmentDueDate.Value = DateTime.Now;
+        }
+
+        public void LoadAppointmentDetails(Appointment appointment)
+        {
+            _selectedAppointmentId = appointment.Id;
+            TxtbAppointmentTitle.Text = appointment.Title;
+            RtbAppointmentDescription.Text = appointment.Description;
+            DtpAppointmentDueDate.Value = appointment.DueDate;
         }
     }
 }

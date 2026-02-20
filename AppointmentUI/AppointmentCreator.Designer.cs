@@ -29,13 +29,13 @@
         private void InitializeComponent()
         {
             groupBox1 = new GroupBox();
+            BtnCreateAppointment = new Button();
             DtpAppointmentDueDate = new DateTimePicker();
             TxtbAppointmentTitle = new TextBox();
             label5 = new Label();
             RtbAppointmentDescription = new RichTextBox();
             label2 = new Label();
             label1 = new Label();
-            BtnCreateAppointment = new Button();
             groupBox1.SuspendLayout();
             SuspendLayout();
             // 
@@ -54,6 +54,16 @@
             groupBox1.TabIndex = 1;
             groupBox1.TabStop = false;
             groupBox1.Text = "Appointment Entry Data";
+            // 
+            // BtnCreateAppointment
+            // 
+            BtnCreateAppointment.Location = new Point(185, 437);
+            BtnCreateAppointment.Name = "BtnCreateAppointment";
+            BtnCreateAppointment.Size = new Size(215, 61);
+            BtnCreateAppointment.TabIndex = 10;
+            BtnCreateAppointment.Text = "Create Appointment";
+            BtnCreateAppointment.UseVisualStyleBackColor = true;
+            BtnCreateAppointment.Click += BtnCreateAppointment_Click;
             // 
             // DtpAppointmentDueDate
             // 
@@ -106,16 +116,6 @@
             label1.Size = new Size(175, 28);
             label1.TabIndex = 0;
             label1.Text = "Appointment Title:";
-            // 
-            // BtnCreateAppointment
-            // 
-            BtnCreateAppointment.Location = new Point(185, 437);
-            BtnCreateAppointment.Name = "BtnCreateAppointment";
-            BtnCreateAppointment.Size = new Size(215, 61);
-            BtnCreateAppointment.TabIndex = 10;
-            BtnCreateAppointment.Text = "Create Appointment";
-            BtnCreateAppointment.UseVisualStyleBackColor = true;
-            BtnCreateAppointment.Click += BtnCreateAppointment_Click;
             // 
             // AppointmentCreator
             // 

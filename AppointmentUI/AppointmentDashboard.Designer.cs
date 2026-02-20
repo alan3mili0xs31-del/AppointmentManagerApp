@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             groupBox1 = new GroupBox();
+            ChkbShowPendingOnly = new CheckBox();
+            BtnEditAppointment = new Button();
             BtnShowAppointmentDetails = new Button();
             BtnCancelAppointment = new Button();
             BtnCompleteAppointment = new Button();
@@ -39,6 +41,8 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(ChkbShowPendingOnly);
+            groupBox1.Controls.Add(BtnEditAppointment);
             groupBox1.Controls.Add(BtnShowAppointmentDetails);
             groupBox1.Controls.Add(BtnCancelAppointment);
             groupBox1.Controls.Add(BtnCompleteAppointment);
@@ -46,14 +50,37 @@
             groupBox1.Controls.Add(LbAppointments);
             groupBox1.Location = new Point(29, 24);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(793, 393);
+            groupBox1.Size = new Size(793, 517);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Appointments";
             // 
+            // ChkbShowPendingOnly
+            // 
+            ChkbShowPendingOnly.AutoSize = true;
+            ChkbShowPendingOnly.Checked = true;
+            ChkbShowPendingOnly.CheckState = CheckState.Checked;
+            ChkbShowPendingOnly.Location = new Point(142, 365);
+            ChkbShowPendingOnly.Name = "ChkbShowPendingOnly";
+            ChkbShowPendingOnly.Size = new Size(210, 32);
+            ChkbShowPendingOnly.TabIndex = 7;
+            ChkbShowPendingOnly.Text = "Show Pending Only ";
+            ChkbShowPendingOnly.UseVisualStyleBackColor = true;
+            ChkbShowPendingOnly.CheckedChanged += ChkbShowPendingOnly_CheckedChanged;
+            // 
+            // BtnEditAppointment
+            // 
+            BtnEditAppointment.Location = new Point(506, 88);
+            BtnEditAppointment.Name = "BtnEditAppointment";
+            BtnEditAppointment.Size = new Size(244, 61);
+            BtnEditAppointment.TabIndex = 6;
+            BtnEditAppointment.Text = "Edit Selected";
+            BtnEditAppointment.UseVisualStyleBackColor = true;
+            BtnEditAppointment.Click += BtnEditAppointment_Click;
+            // 
             // BtnShowAppointmentDetails
             // 
-            BtnShowAppointmentDetails.Location = new Point(523, 83);
+            BtnShowAppointmentDetails.Location = new Point(506, 155);
             BtnShowAppointmentDetails.Name = "BtnShowAppointmentDetails";
             BtnShowAppointmentDetails.Size = new Size(244, 61);
             BtnShowAppointmentDetails.TabIndex = 5;
@@ -63,7 +90,7 @@
             // 
             // BtnCancelAppointment
             // 
-            BtnCancelAppointment.Location = new Point(523, 217);
+            BtnCancelAppointment.Location = new Point(506, 289);
             BtnCancelAppointment.Name = "BtnCancelAppointment";
             BtnCancelAppointment.Size = new Size(244, 61);
             BtnCancelAppointment.TabIndex = 3;
@@ -73,7 +100,7 @@
             // 
             // BtnCompleteAppointment
             // 
-            BtnCompleteAppointment.Location = new Point(523, 150);
+            BtnCompleteAppointment.Location = new Point(506, 222);
             BtnCompleteAppointment.Name = "BtnCompleteAppointment";
             BtnCompleteAppointment.Size = new Size(244, 61);
             BtnCompleteAppointment.TabIndex = 2;
@@ -83,7 +110,7 @@
             // 
             // BtnCreateAppointment
             // 
-            BtnCreateAppointment.Location = new Point(148, 326);
+            BtnCreateAppointment.Location = new Point(137, 432);
             BtnCreateAppointment.Name = "BtnCreateAppointment";
             BtnCreateAppointment.Size = new Size(215, 61);
             BtnCreateAppointment.TabIndex = 1;
@@ -97,7 +124,7 @@
             LbAppointments.ItemHeight = 28;
             LbAppointments.Location = new Point(33, 62);
             LbAppointments.Name = "LbAppointments";
-            LbAppointments.Size = new Size(439, 228);
+            LbAppointments.Size = new Size(439, 284);
             LbAppointments.TabIndex = 0;
             LbAppointments.SelectedIndexChanged += LbAppointments_SelectedIndexChanged;
             // 
@@ -105,7 +132,7 @@
             // 
             AutoScaleDimensions = new SizeF(11F, 28F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(855, 451);
+            ClientSize = new Size(855, 553);
             Controls.Add(groupBox1);
             Font = new Font("Yu Gothic UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             Margin = new Padding(4);
@@ -114,6 +141,7 @@
             Activated += AppointmentDashboard_Activated;
             Load += AppointmentDashboard_Load;
             groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -125,5 +153,7 @@
         private Button BtnShowAppointmentDetails;
         private Button BtnCancelAppointment;
         private Button BtnCompleteAppointment;
+        private CheckBox ChkbShowPendingOnly;
+        private Button BtnEditAppointment;
     }
 }

@@ -65,10 +65,28 @@ namespace AppDocumentada.Dominio
             AppointmentStatus = appointmentStatus;
         }
 
+        public void ChangeTitle(string title)
+        {
+            IsValidTitle(title);
+            Title = title;
+        }
+
+        public void ChangeDescription(string description)
+        {
+            IsValidDescription(description);
+            Description = description;
+        }
+
+        public void ChangeDueDate(DateTime dueDate)
+        {
+            IsValidDueDate(dueDate);
+            DueDate = dueDate;
+        }
+
         private void IsValidData(string title, string description, DateTime dueDate)
         {
             IsValidTitle(title);
-            IsValidDescription(title);
+            IsValidDescription(description);
             IsValidDueDate(dueDate);
         }
 
@@ -96,14 +114,14 @@ namespace AppDocumentada.Dominio
 
         private void IsValidDescription(string description)
         {
-            string pattern = @"^[\w.\-_0-9 ]{5,200}$";
+            string pattern = @"^[\w.\'\,\-_0-9 ]{5,200}$";
             if (!Regex.IsMatch(description, pattern))
                 throw new ArgumentException("Value entered for appointment's description is not valid.");
         }
 
         private void IsValidTitle(string title)
         {
-            string pattern = @"^[\w.\-_0-9 ]{5,100}$";
+            string pattern = @"^[\w.\'\,\-_0-9 ]{5,100}$";
             if (!Regex.IsMatch(title, pattern))
                 throw new ArgumentException("Value entered for appointment's title is not valid.");
         }

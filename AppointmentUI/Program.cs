@@ -20,13 +20,15 @@ namespace AppointmentUI
             var createAppointmentUC = new CreateAppointmentUseCase(appointmentMemoryRepo);
             var completeAppointmentUC = new CompleteAppointmentUseCase(appointmentMemoryRepo);
             var cancelAppointmentUC = new CancelAppointmentUseCase(appointmentMemoryRepo);
+            var updateAppointment = new UpdateAppointmentUseCase(appointmentMemoryRepo);
 
             Application.Run(
                 new AppointmentDashboard(
                     getAppointmentsUC, 
                     createAppointmentUC, 
                     completeAppointmentUC, 
-                    cancelAppointmentUC
+                    cancelAppointmentUC,
+                    updateAppointment
                 )
             );
         }

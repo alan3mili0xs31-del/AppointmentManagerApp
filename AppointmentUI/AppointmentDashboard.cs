@@ -11,19 +11,22 @@ namespace AppointmentUI
         private readonly GetAppointmentsUseCase _getAppointments;
         private readonly CompleteAppointmentUseCase _completeAppointment;
         private readonly CancelAppointmentUseCase _cancelAppointment;
+        private readonly UpdateAppointmentUseCase _updateAppointment;
 
         public AppointmentDashboard(
             GetAppointmentsUseCase getAppointmentUC,
             CreateAppointmentUseCase createAppointmentUC,
             CompleteAppointmentUseCase completeAppointmentUC,
-            CancelAppointmentUseCase cancelAppointmentUC
+            CancelAppointmentUseCase cancelAppointmentUC,
+            UpdateAppointmentUseCase updateAppointment
             )
         {
-            _appointmentCreator = new AppointmentCreator(createAppointmentUC);
+            _appointmentCreator = new AppointmentCreator(createAppointmentUC, updateAppointment);
             _appointmentViewer = new AppointmentViewer();
             _getAppointments = getAppointmentUC;
             _completeAppointment = completeAppointmentUC;
             _cancelAppointment = cancelAppointmentUC;
+            _updateAppointment = updateAppointment;
 
             InitializeComponent();
         }
@@ -34,12 +37,12 @@ namespace AppointmentUI
             LockAppointmentSelectedButtons();
         }
 
-        private void LoadAppointmentsIntoList()
+        private void LoadAppointmentsIntoList(List<Appointment>? appointments = null)
         {
             try
             {
                 LbAppointments.DataSource = null;
-                LbAppointments.DataSource = _getAppointments.Execute(appointmentStatus: 1);
+                LbAppointments.DataSource = appointments ?? _getAppointments.Execute(appointmentStatus: 1);
                 LbAppointments.DisplayMember = "title";
             }
             catch (Exception ex)
@@ -55,7 +58,20 @@ namespace AppointmentUI
 
         private void BtnCreateAppointment_Click(object sender, EventArgs e)
         {
-            _appointmentCreator.Show();
+            ActivateAppointmentCreator();
+        }
+
+        private void ActivateAppointmentCreator()
+        {
+            try
+            {
+                _appointmentCreator.ChangeToCreateMode();
+                _appointmentCreator.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void AppointmentDashboard_Activated(object sender, EventArgs e)
@@ -132,6 +148,7 @@ namespace AppointmentUI
 
         private void LockAppointmentSelectedButtons()
         {
+            BtnEditAppointment.Enabled = false;
             BtnShowAppointmentDetails.Enabled = false;
             BtnCompleteAppointment.Enabled = false;
             BtnCancelAppointment.Enabled = false;
@@ -139,9 +156,57 @@ namespace AppointmentUI
 
         private void UnlockAppointmetSelectedButtons()
         {
+            BtnEditAppointment.Enabled = true;
             BtnShowAppointmentDetails.Enabled = true;
             BtnCompleteAppointment.Enabled = true;
             BtnCancelAppointment.Enabled = true;
+        }
+
+        private void ChkbShowPendingOnly_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ChkbShowPendingOnly.Checked)
+                LoadAppointmentsIntoList();
+            else
+                IncludeCompletedAppointments();
+        }
+
+        private void IncludeCompletedAppointments()
+        {
+            try
+            {
+                var pendingAppointment = _getAppointments.Execute(appointmentStatus: 1);
+                var completedAppointment = _getAppointments.Execute(appointmentStatus: 2);
+                var appointments = new List<Appointment>();
+                appointments.AddRange(pendingAppointment);
+                appointments.AddRange(completedAppointment);
+
+                LoadAppointmentsIntoList(appointments);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void BtnEditAppointment_Click(object sender, EventArgs e)
+        {
+            EditSelectedAppointment();
+        }
+
+        private void EditSelectedAppointment()
+        {
+            try
+            {
+                _appointmentCreator.ChangeToEditMode();
+                var appointment = GetSelectedAppointmentFromList();
+                _appointmentCreator.LoadAppointmentDetails(appointment);
+                _appointmentCreator.Show();
+                _appointmentCreator.Activate();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }
