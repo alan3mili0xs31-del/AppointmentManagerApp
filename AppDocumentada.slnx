@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="AppDocumentada/AppDocumentada.csproj" />
+  <Project Path="AppointmentUI/AppointmentUI.csproj" Id="30ba57ae-6064-48b9-96a5-6bc2a3af4ad7" />
+</Solution>
