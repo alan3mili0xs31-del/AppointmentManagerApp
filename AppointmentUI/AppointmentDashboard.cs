@@ -37,6 +37,51 @@ namespace AppointmentUI
             LockAppointmentSelectedButtons();
         }
 
+        private void AppointmentDashboard_Activated(object sender, EventArgs e)
+        {
+            LoadAppointmentsIntoList();
+        }
+
+        private void BtnCreateAppointment_Click(object sender, EventArgs e)
+        {
+            ActivateAppointmentCreator();
+        }
+
+        private void BtnEditAppointment_Click(object sender, EventArgs e)
+        {
+            EditSelectedAppointment();
+        }
+
+        private void BtnShowAppointmentDetails_Click(object sender, EventArgs e)
+        {
+            ActivateAppointmentViewer();
+        }
+
+        private void BtnCompleteAppointment_Click(object sender, EventArgs e)
+        {
+            CompleteSelectedAppointmen();
+        }
+
+        private void BtnCancelAppointment_Click(object sender, EventArgs e)
+        {
+            CancelSelectedAppointment();
+        }
+
+        private void ChkbShowPendingOnly_CheckedChanged(object sender, EventArgs e)
+        {
+            _includeCanceledAppointments = !ChkbShowPendingOnly.Checked;
+            _includeCompletedAppointments = !ChkbShowPendingOnly.Checked;
+            LoadAppointmentsIntoList();
+        }
+
+        private void LbAppointments_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (LbAppointments.SelectedIndex > -1)
+                UnlockAppointmetSelectedButtons();
+            else
+                LockAppointmentSelectedButtons();
+        }
+
         private void LoadAppointmentsIntoList(List<Appointment>? appointments = null)
         {
             try
@@ -53,39 +98,26 @@ namespace AppointmentUI
             }
         }
 
-        private void BtnShowAppointmentDetails_Click(object sender, EventArgs e)
+        private Appointment GetSelectedAppointmentFromList()
         {
-            ActivateAppointmentViewer();
-        }
-
-        private void BtnCreateAppointment_Click(object sender, EventArgs e)
-        {
-            ActivateAppointmentCreator();
+            if (LbAppointments.SelectedValue is not Appointment appointment)
+                throw new Exception("The appointment could not be loaded.");
+            return appointment;
         }
 
         private void ActivateAppointmentCreator()
         {
             try
             {
+                _appointmentCreator.CleanControls();
                 _appointmentCreator.ChangeToCreateMode();
                 _appointmentCreator.Show();
+                _appointmentCreator.Activate();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-        }
-
-        private void AppointmentDashboard_Activated(object sender, EventArgs e)
-        {
-            LoadAppointmentsIntoList();
-        }
-
-        private Appointment GetSelectedAppointmentFromList()
-        {
-            if (LbAppointments.SelectedValue is not Appointment appointment)
-                throw new Exception("The appointment could not be loaded.");
-            return appointment;
         }
 
         private void ActivateAppointmentViewer()
@@ -102,9 +134,20 @@ namespace AppointmentUI
             }
         }
 
-        private void BtnCompleteAppointment_Click(object sender, EventArgs e)
+        private void EditSelectedAppointment()
         {
-            CompleteSelectedAppointmen();
+            try
+            {
+                _appointmentCreator.ChangeToEditMode();
+                var appointment = GetSelectedAppointmentFromList();
+                _appointmentCreator.LoadAppointmentDetails(appointment);
+                _appointmentCreator.Show();
+                _appointmentCreator.Activate();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void CompleteSelectedAppointmen()
@@ -113,17 +156,13 @@ namespace AppointmentUI
             {
                 var appointment = GetSelectedAppointmentFromList();
                 _completeAppointment.Execute(appointment.Id);
+                MessageBox.Show("Appointment set as completed!");
                 LoadAppointmentsIntoList();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-        }
-
-        private void BtnCancelAppointment_Click(object sender, EventArgs e)
-        {
-            CancelSelectedAppointment();
         }
 
         private void CancelSelectedAppointment()
@@ -132,20 +171,13 @@ namespace AppointmentUI
             {
                 var appointment = GetSelectedAppointmentFromList();
                 _cancelAppointment.Execute(appointment.Id);
+                MessageBox.Show("Appointment set as canceled correctly!");
                 LoadAppointmentsIntoList();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-        }
-
-        private void LbAppointments_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (LbAppointments.SelectedIndex > -1)
-                UnlockAppointmetSelectedButtons();
-            else
-                LockAppointmentSelectedButtons();
         }
 
         private void LockAppointmentSelectedButtons()
@@ -164,32 +196,6 @@ namespace AppointmentUI
             BtnCancelAppointment.Enabled = true;
         }
 
-        private void ChkbShowPendingOnly_CheckedChanged(object sender, EventArgs e)
-        {
-            _includeCanceledAppointments = !ChkbShowPendingOnly.Checked;
-            _includeCompletedAppointments = !ChkbShowPendingOnly.Checked;
-            LoadAppointmentsIntoList();
-        }
 
-        private void BtnEditAppointment_Click(object sender, EventArgs e)
-        {
-            EditSelectedAppointment();
-        }
-
-        private void EditSelectedAppointment()
-        {
-            try
-            {
-                _appointmentCreator.ChangeToEditMode();
-                var appointment = GetSelectedAppointmentFromList();
-                _appointmentCreator.LoadAppointmentDetails(appointment);
-                _appointmentCreator.Show();
-                _appointmentCreator.Activate();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
     }
 }

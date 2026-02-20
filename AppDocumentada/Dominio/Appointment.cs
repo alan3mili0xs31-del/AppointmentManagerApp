@@ -67,20 +67,29 @@ namespace AppDocumentada.Dominio
 
         public void ChangeTitle(string title)
         {
+            CanBeUpdated();
             IsValidTitle(title);
             Title = title;
         }
 
         public void ChangeDescription(string description)
         {
+            CanBeUpdated();
             IsValidDescription(description);
             Description = description;
         }
 
         public void ChangeDueDate(DateTime dueDate)
         {
+            CanBeUpdated();
             IsValidDueDate(dueDate);
             DueDate = dueDate;
+        }
+
+        private void CanBeUpdated()
+        {
+            if (AppointmentStatus != 1)
+                throw new InvalidDataException("Appointment cannot be modified since it's already canceled or finished.");
         }
 
         private void IsValidData(string title, string description, DateTime dueDate)

@@ -65,7 +65,7 @@ namespace AppointmentUI
                 DateTime dueDate = DtpAppointmentDueDate.Value;
 
                 _updateAppointment.Execute(_selectedAppointmentId, title, description, dueDate);
-
+                MessageBox.Show("Appointment was updated successfully!");
                 CleanControls();
             }
             catch (Exception ex)
@@ -82,8 +82,8 @@ namespace AppointmentUI
                 string description = RtbAppointmentDescription.Text.Trim();
                 DateTime dueDate = DtpAppointmentDueDate.Value;
 
-                _createAppointment.Execute(title, description, dueDate);
-
+                var newAppointmentId = _createAppointment.Execute(title, description, dueDate);
+                MessageBox.Show($"New appointment with id <{newAppointmentId}> created!");
                 CleanControls();
             }
             catch (Exception ex)
@@ -92,7 +92,7 @@ namespace AppointmentUI
             }
         }
 
-        private void CleanControls()
+        public void CleanControls()
         {
             TxtbAppointmentTitle.Text = string.Empty;
             RtbAppointmentDescription.Text = string.Empty;
