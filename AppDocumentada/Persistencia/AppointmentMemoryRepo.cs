@@ -19,13 +19,17 @@ namespace AppDocumentada.Persistencia
 
         public List<Appointment> GetAll(AppointmentFilter parameters)
         {
-            var appointments = _appointments;
+            var appointments = _appointments.FindAll((appointments) => 
+                appointments.AppointmentStatus == 1);
             if (parameters.Title != null)
                 appointments = _appointments.FindAll((appointment) => 
                     appointment.Title.Contains(parameters.Title, StringComparison.CurrentCultureIgnoreCase));
-            if (parameters.AppointmentStatus != null)
-                appointments = _appointments.FindAll((appointment) =>
-                    appointment.AppointmentStatus == parameters.AppointmentStatus);
+            if (parameters.IncludeCanceled)
+                appointments.AddRange(_appointments.FindAll((appointment) =>
+                    appointment.AppointmentStatus == 3));
+            if (parameters.IncludeCompleted)
+                appointments.AddRange(_appointments.FindAll((appointment) =>
+                    appointment.AppointmentStatus == 2));
             return appointments;
         }
 

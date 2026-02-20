@@ -11,7 +11,8 @@ namespace AppointmentUI
         private readonly GetAppointmentsUseCase _getAppointments;
         private readonly CompleteAppointmentUseCase _completeAppointment;
         private readonly CancelAppointmentUseCase _cancelAppointment;
-        private readonly UpdateAppointmentUseCase _updateAppointment;
+        private bool _includeCompletedAppointments = false;
+        private bool _includeCanceledAppointments = false;
 
         public AppointmentDashboard(
             GetAppointmentsUseCase getAppointmentUC,
@@ -26,7 +27,6 @@ namespace AppointmentUI
             _getAppointments = getAppointmentUC;
             _completeAppointment = completeAppointmentUC;
             _cancelAppointment = cancelAppointmentUC;
-            _updateAppointment = updateAppointment;
 
             InitializeComponent();
         }
@@ -42,7 +42,9 @@ namespace AppointmentUI
             try
             {
                 LbAppointments.DataSource = null;
-                LbAppointments.DataSource = appointments ?? _getAppointments.Execute(appointmentStatus: 1);
+                LbAppointments.DataSource = appointments ?? _getAppointments.Execute(
+                    includeCanceled: _includeCanceledAppointments,
+                    includeCompleted: _includeCompletedAppointments);
                 LbAppointments.DisplayMember = "title";
             }
             catch (Exception ex)
@@ -164,28 +166,9 @@ namespace AppointmentUI
 
         private void ChkbShowPendingOnly_CheckedChanged(object sender, EventArgs e)
         {
-            if (ChkbShowPendingOnly.Checked)
-                LoadAppointmentsIntoList();
-            else
-                IncludeCompletedAppointments();
-        }
-
-        private void IncludeCompletedAppointments()
-        {
-            try
-            {
-                var pendingAppointment = _getAppointments.Execute(appointmentStatus: 1);
-                var completedAppointment = _getAppointments.Execute(appointmentStatus: 2);
-                var appointments = new List<Appointment>();
-                appointments.AddRange(pendingAppointment);
-                appointments.AddRange(completedAppointment);
-
-                LoadAppointmentsIntoList(appointments);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            _includeCanceledAppointments = !ChkbShowPendingOnly.Checked;
+            _includeCompletedAppointments = !ChkbShowPendingOnly.Checked;
+            LoadAppointmentsIntoList();
         }
 
         private void BtnEditAppointment_Click(object sender, EventArgs e)

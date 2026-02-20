@@ -15,12 +15,15 @@ namespace AppDocumentada.Dominio.AppointmentUseCases
             _appointmentRepo = appointmentRepo;
         }
 
-        public List<Appointment> Execute(string? title = null, int? appointmentStatus = null)
+        public List<Appointment> Execute(string? title = null, 
+            bool includeCanceled = false, 
+            bool includeCompleted = false)
         {
             var parameters = new AppointmentFilter()
             {
                 Title = title,
-                AppointmentStatus = appointmentStatus
+                IncludeCanceled = includeCanceled,
+                IncludeCompleted = includeCompleted
             };
             return _appointmentRepo.GetAll(parameters);
         }
