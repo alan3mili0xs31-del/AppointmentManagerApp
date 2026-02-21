@@ -1,6 +1,6 @@
-using AppDocumentada.Dominio.AppointmentUseCases;
 using AppointmentUI.Interfaces;
-using AppDocumentada.Dominio;
+using BusinessLogic.Entities;
+using BusinessLogic.UseCases;
 
 namespace AppointmentUI
 {

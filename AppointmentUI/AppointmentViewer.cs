@@ -1,5 +1,5 @@
-﻿using AppDocumentada.Dominio;
-using AppointmentUI.Interfaces;
+﻿using AppointmentUI.Interfaces;
+using BusinessLogic.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -35,11 +35,6 @@ namespace AppointmentUI
         {
             e.Cancel = true;
             Hide();
-        }
-
-        private void AppointmentViewer_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }

@@ -9,7 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AppDocumentada\AppDocumentada.csproj" />
+    <ProjectReference Include="..\AppDocumentada\BusinessLogic.csproj" />
+    <ProjectReference Include="..\Persistence\Persistence.csproj" />
   </ItemGroup>
 
 </Project>

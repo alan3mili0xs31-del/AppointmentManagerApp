@@ -1,5 +1,6 @@
-using AppDocumentada.Dominio.AppointmentUseCases;
-using AppDocumentada.Persistencia;
+using BusinessLogic.UseCases;
+using Persistence.DataAcces.SQLServer;
+using Persistence.Repositories;
 
 namespace AppointmentUI
 {
@@ -16,11 +17,24 @@ namespace AppointmentUI
             ApplicationConfiguration.Initialize();
 
             var appointmentMemoryRepo = new AppointmentMemoryRepo();
+
+            string connString = @"Data Source=EMILIA-TOSCANO\SQLEXPRESS2025;Persist Security Info=False;User ID=appointment_app;Password=genshin456;Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Application Name=""SQL Server Management Studio"";Command Timeout=0";
+            var sqlDbConnection = new SqlDbConnection(connString);
+            var sqlServerQueryManager = new SQLServerQueryManager(sqlDbConnection);
+            var appointmentDBRepo = new AppointmentDBRepo(sqlServerQueryManager);
+
+            /*
             var getAppointmentsUC = new GetAppointmentsUseCase(appointmentMemoryRepo);
             var createAppointmentUC = new CreateAppointmentUseCase(appointmentMemoryRepo);
             var completeAppointmentUC = new CompleteAppointmentUseCase(appointmentMemoryRepo);
             var cancelAppointmentUC = new CancelAppointmentUseCase(appointmentMemoryRepo);
             var updateAppointment = new UpdateAppointmentUseCase(appointmentMemoryRepo);
+            */
+            var getAppointmentsUC = new GetAppointmentsUseCase(appointmentDBRepo);
+            var createAppointmentUC = new CreateAppointmentUseCase(appointmentDBRepo);
+            var completeAppointmentUC = new CompleteAppointmentUseCase(appointmentDBRepo);
+            var cancelAppointmentUC = new CancelAppointmentUseCase(appointmentDBRepo);
+            var updateAppointment = new UpdateAppointmentUseCase(appointmentDBRepo);
 
             Application.Run(
                 new AppointmentDashboard(

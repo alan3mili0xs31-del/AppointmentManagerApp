@@ -141,7 +141,6 @@
             Name = "AppointmentViewer";
             Text = "Appointment Viewer";
             FormClosing += AppointmentViewer_FormClosing;
-            Load += AppointmentViewer_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             ResumeLayout(false);

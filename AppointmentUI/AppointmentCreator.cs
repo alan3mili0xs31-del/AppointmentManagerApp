@@ -1,6 +1,6 @@
-﻿using AppDocumentada.Dominio;
-using AppDocumentada.Dominio.AppointmentUseCases;
-using AppointmentUI.Interfaces;
+﻿using AppointmentUI.Interfaces;
+using BusinessLogic.Entities;
+using BusinessLogic.UseCases;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

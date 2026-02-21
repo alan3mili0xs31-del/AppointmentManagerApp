@@ -1,4 +1,4 @@
-﻿using AppDocumentada.Dominio;
+﻿using BusinessLogic.Entities;
 
 namespace AppointmentUI.Interfaces
 {

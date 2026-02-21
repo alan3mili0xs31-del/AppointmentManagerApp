@@ -1,11 +1,7 @@
-﻿using AppDocumentada.Dominio;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BusinessLogic.Entities;
+using BusinessLogic.Interfaces;
 
-namespace AppDocumentada.Persistencia
+namespace Persistence.Repositories
 {
     public class AppointmentMemoryRepo : IAppointmentRepository
     {
