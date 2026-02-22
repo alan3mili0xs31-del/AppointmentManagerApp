@@ -105,7 +105,7 @@ END;
 */
 
 GO
-CREATE OR ALTER PROCEDURE spGetAppointments
+CREATE OR ALTER PROCEDURE spGetAllAppointments
 	@p_title NVARCHAR(100) = NULL,
     @p_id_appointment_status INT = NULL
 AS 
@@ -143,3 +143,8 @@ BEGIN
 	FROM 
 		appointment_status
 END;
+
+
+
+
+

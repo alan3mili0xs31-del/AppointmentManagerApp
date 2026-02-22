@@ -8,7 +8,9 @@ namespace BusinessLogic.Entities
         public string Title { get; private set; }
         public string Description { get; private set; }
         public DateTime DueDate { get; private set; }
+        public Guid UserId { get; private set; }
         public int AppointmentStatus { get; private set; }
+        public DateTime CreationDate { get; private set; }
 
         /// <summary>
         /// This constructor is used for persisting data for Appointment model.
@@ -26,7 +28,8 @@ namespace BusinessLogic.Entities
         public Appointment(
             string title, 
             string description, 
-            DateTime dueDate)
+            DateTime dueDate,
+            Guid userId)
         {
             IsValidData(title, description, dueDate);
 
@@ -34,6 +37,8 @@ namespace BusinessLogic.Entities
             Title = title;
             Description = description;
             DueDate = dueDate;
+            UserId = userId;
+            CreationDate = DateTime.Now;
             AppointmentStatus = 1;
         }
 
@@ -51,13 +56,17 @@ namespace BusinessLogic.Entities
             string title,
             string description,
             DateTime dueDate,
-            int appointmentStatus)
+            Guid userId,
+            int appointmentStatus,
+            DateTime creationDate)
         {
             Id = id;
             Title = title;
             Description = description;
             DueDate = dueDate;
+            UserId = userId;
             AppointmentStatus = appointmentStatus;
+            CreationDate = creationDate;
         }
 
         public void ChangeTitle(string title)

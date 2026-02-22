@@ -9,13 +9,13 @@ namespace AppointmentUI
         private readonly AppointmentCreator _appointmentCreator;
         private readonly AppointmentViewer _appointmentViewer;
         private readonly AppointmentCreator _appointmentEditor;
-        private readonly GetAppointmentsUseCase _getAppointments;
+        private readonly GetAllAppointmentsUseCase _getAppointments;
         private readonly CompleteAppointmentUseCase _completeAppointment;
         private readonly CancelAppointmentUseCase _cancelAppointment;
         private readonly GetAppointmentStatusUseCase _getAppointmentStatus;
 
         public AppointmentDashboard(
-            GetAppointmentsUseCase getAppointmentUC,
+            GetAllAppointmentsUseCase getAppointmentUC,
             CreateAppointmentUseCase createAppointmentUC,
             CompleteAppointmentUseCase completeAppointmentUC,
             CancelAppointmentUseCase cancelAppointmentUC,

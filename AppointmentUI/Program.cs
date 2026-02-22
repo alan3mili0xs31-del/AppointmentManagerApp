@@ -30,7 +30,7 @@ namespace AppointmentUI
             var cancelAppointmentUC = new CancelAppointmentUseCase(appointmentMemoryRepo);
             var updateAppointment = new UpdateAppointmentUseCase(appointmentMemoryRepo);
             */
-            var getAppointmentsUC = new GetAppointmentsUseCase(appointmentDBRepo);
+            var getAppointmentsUC = new GetAllAppointmentsUseCase(appointmentDBRepo);
             var createAppointmentUC = new CreateAppointmentUseCase(appointmentDBRepo);
             var completeAppointmentUC = new CompleteAppointmentUseCase(appointmentDBRepo);
             var cancelAppointmentUC = new CancelAppointmentUseCase(appointmentDBRepo);

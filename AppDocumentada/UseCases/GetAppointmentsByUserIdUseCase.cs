@@ -3,23 +3,23 @@ using BusinessLogic.Interfaces;
 
 namespace BusinessLogic.UseCases
 {
-    public class GetAppointmentsUseCase
+    public class GetAppointmentsByUserIdUseCase
     {
         private readonly IAppointmentRepository _appointmentRepo;
 
-        public GetAppointmentsUseCase(IAppointmentRepository appointmentRepo)
+        public GetAppointmentsByUserIdUseCase(IAppointmentRepository appointmentRepo)
         {
             _appointmentRepo = appointmentRepo;
         }
 
-        public List<Appointment> Execute(string? title = null, int? appointmentStatus = null)
+        public List<Appointment> Execute(Guid userId, string? title = null, int? appointmentStatus = null)
         {
             var parameters = new AppointmentFilter()
             {
                 Title = title,
                 AppointmentStatus = appointmentStatus
             };
-            return _appointmentRepo.GetAll(parameters);
+            return _appointmentRepo.GetByUserId(userId, parameters);
         }
     }
 }
