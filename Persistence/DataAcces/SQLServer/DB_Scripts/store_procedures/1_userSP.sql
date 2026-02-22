@@ -1,7 +1,7 @@
 USE DBAppointmentsManager;
 
 GO
-CREATE OR ALTER PROCEDURE spGetAppointmetsByUserId
+CREATE OR ALTER PROCEDURE dbo.spGetAppointmentsByUserId
 	@p_id_user UNIQUEIDENTIFIER,
 	@p_title NVARCHAR(100) = NULL,
     @p_id_appointment_status INT = NULL
@@ -35,7 +35,7 @@ END;
 
 
 GO
-CREATE OR ALTER PROCEDURE getUserByUserName
+CREATE OR ALTER PROCEDURE dbo.spGetUserByUserName
 	@p_user_name NVarChar(100)
 AS
 BEGIN
@@ -53,3 +53,23 @@ BEGIN
 END;
 
 EXEC getUserByUserName @p_user_name = 'alan021';
+
+
+
+GO
+CREATE OR ALTER PROCEDURE dbo.spGetUserById
+	@p_id_user UNIQUEIDENTIFIER
+AS
+BEGIN
+	SELECT 
+		id_user,
+		user_name,
+		email_adress,
+		password,
+		creation_date,
+		status
+	FROM 
+		dbo.users
+	WHERE
+		id_user = @p_id_user
+END;

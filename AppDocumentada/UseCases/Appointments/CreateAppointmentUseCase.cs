@@ -1,7 +1,7 @@
 ﻿using BusinessLogic.Entities;
 using BusinessLogic.Interfaces;
 
-namespace BusinessLogic.UseCases
+namespace BusinessLogic.UseCases.Appointments
 {
     public class CreateAppointmentUseCase
     {
@@ -12,9 +12,9 @@ namespace BusinessLogic.UseCases
             _appointmentRepo = appointmentRepo;
         }
 
-        public Guid Execute(string title, string description, DateTime dueDate)
+        public Guid Execute(string title, string description, DateTime dueDate, Guid userId)
         {
-            var newAppointment = new Appointment(title, description, dueDate);
+            var newAppointment = new Appointment(title, description, dueDate, userId);
             return _appointmentRepo.Save(newAppointment);
         }
     }

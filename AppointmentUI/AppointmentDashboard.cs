@@ -1,6 +1,6 @@
 using AppointmentUI.Interfaces;
 using BusinessLogic.Entities;
-using BusinessLogic.UseCases;
+using BusinessLogic.UseCases.Appointments;
 
 namespace AppointmentUI
 {

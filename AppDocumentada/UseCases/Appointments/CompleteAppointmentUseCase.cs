@@ -1,23 +1,23 @@
 ﻿using BusinessLogic.Interfaces;
 
-namespace BusinessLogic.UseCases
+namespace BusinessLogic.UseCases.Appointments
 {
-    public class CancelAppointmentUseCase
+    public class CompleteAppointmentUseCase
     {
         private readonly IAppointmentRepository _appointmentRepo;
 
-        public CancelAppointmentUseCase(IAppointmentRepository appointmentRepo)
+        public CompleteAppointmentUseCase(IAppointmentRepository appointmentRepo)
         {
             _appointmentRepo = appointmentRepo;
         }
 
         /// <summary>
-        /// Change pending status from pending to canceled.
+        /// Change pending status from pending to completed.
         /// </summary>
         public bool Execute(Guid id)
         {
             var appointment = new FindAppointmentUseCase(_appointmentRepo).Execute(id);
-            appointment.SetStatusToCanceled();
+            appointment.SetStatusToCompleted();
             return _appointmentRepo.Update(appointment);
         }
     }

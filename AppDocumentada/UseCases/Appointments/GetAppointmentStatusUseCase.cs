@@ -1,7 +1,7 @@
 ﻿using BusinessLogic.Entities;
 using BusinessLogic.Interfaces;
 
-namespace BusinessLogic.UseCases
+namespace BusinessLogic.UseCases.Appointments
 {
     public class GetAppointmentStatusUseCase
     {

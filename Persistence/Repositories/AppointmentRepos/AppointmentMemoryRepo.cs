@@ -1,7 +1,7 @@
 ﻿using BusinessLogic.Entities;
 using BusinessLogic.Interfaces;
 
-namespace Persistence.Repositories
+namespace Persistence.Repositories.AppointmentRepos
 {
     public class AppointmentMemoryRepo : IAppointmentRepository
     {
@@ -30,6 +30,11 @@ namespace Persistence.Repositories
         {
             return _appointments.Find((appointment) => 
                 appointment.Id == id);
+        }
+
+        public List<Appointment> GetByUserId(Guid userId, AppointmentFilter parameters)
+        {
+            throw new NotImplementedException();
         }
 
         public Guid Save(Appointment appointment)

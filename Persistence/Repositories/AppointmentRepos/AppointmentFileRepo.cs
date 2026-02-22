@@ -1,7 +1,7 @@
 ﻿using BusinessLogic.Entities;
 using BusinessLogic.Interfaces;
 
-namespace Persistence.Repositories
+namespace Persistence.Repositories.AppointmentRepos
 {
     public class AppointmentFileRepo : IAppointmentRepository
     {
@@ -21,6 +21,11 @@ namespace Persistence.Repositories
         }
 
         public Appointment? GetById(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Appointment> GetByUserId(Guid userId, AppointmentFilter parameters)
         {
             throw new NotImplementedException();
         }

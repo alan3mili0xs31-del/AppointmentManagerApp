@@ -1,6 +1,6 @@
 ﻿using BusinessLogic.Interfaces;
 
-namespace BusinessLogic.UseCases
+namespace BusinessLogic.UseCases.Appointments
 {
     public class UpdateAppointmentUseCase
     {
