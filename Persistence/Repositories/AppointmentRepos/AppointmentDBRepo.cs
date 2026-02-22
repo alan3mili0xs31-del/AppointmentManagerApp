@@ -22,6 +22,7 @@ namespace Persistence.Repositories.AppointmentRepos
                 command.Parameters.Add("@p_title", SqlDbType.NVarChar).Value = appointment.Title;
                 command.Parameters.Add("@p_description", SqlDbType.NVarChar).Value = appointment.Description;
                 command.Parameters.Add("@p_due_date", SqlDbType.DateTime2).Value = appointment.DueDate;
+                command.Parameters.Add("@p_id_user", SqlDbType.UniqueIdentifier).Value = appointment.UserId;
             });
 
             return idGenerado;

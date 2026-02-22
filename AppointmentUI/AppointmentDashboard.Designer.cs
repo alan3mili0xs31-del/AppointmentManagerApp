@@ -156,6 +156,7 @@
             Margin = new Padding(4);
             Name = "AppointmentDashboard";
             Text = "Appointment Dashboard";
+            FormClosing += AppointmentDashboard_FormClosing;
             Load += AppointmentDashboard_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();

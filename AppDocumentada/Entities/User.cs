@@ -13,7 +13,7 @@ namespace BusinessLogic.Entities
         public Guid Id { get; private set; }
         public string UserName { get; private set; }
         public string EmailAdress { get; private set; }
-        public string Password { get; private set; }
+        private string _hashedPassword;
         public DateTime CreationDate { get; private set; }
         public int Status { get; private set; }
 
@@ -27,7 +27,7 @@ namespace BusinessLogic.Entities
             Id = Guid.NewGuid();
             UserName = userName;
             EmailAdress = emailAdress;
-            Password = password;
+            _hashedPassword = password;
             CreationDate = DateTime.Now;
             Status = 1;
         }
@@ -43,26 +43,32 @@ namespace BusinessLogic.Entities
             Id = id;
             UserName = userName;
             EmailAdress = emailAdress;
-            Password = password;
+            _hashedPassword = password;
             CreationDate= creationDate;
             Status = status;
         }
 
-        private void ChangeUserName(string userName)
+        public void ChangeUserName(string userName)
         {
             IsValidUserName(userName);
             UserName = userName;
         }
 
-        private void ChangePassword(string password)
+        public void ChangePassword(string password)
         {
-            Password = password;
+            _hashedPassword = password;
         }
 
-        private void ChangeEmailAdress(string emailAdress)
+        public void ChangeEmailAdress(string emailAdress)
         {
             IsValidEmailAdress(emailAdress);
             EmailAdress = emailAdress;
+        }
+
+        public void DoesPasswordMatch(string password)
+        {
+            if (!_hashedPassword.Equals(password))
+                throw new InvalidDataException("Credencials not valid.");
         }
 
         private void IsValidUserData(

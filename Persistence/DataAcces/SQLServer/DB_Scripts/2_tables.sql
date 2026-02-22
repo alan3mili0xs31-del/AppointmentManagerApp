@@ -40,7 +40,7 @@ INSERT INTO users(id_user, user_name, email_adress, password)
 	VALUES ('3F2504E0-4F89-11D3-9A0C-0305E82C3301', 'alan021', 'alan@gmail.com', 'afasfsf');
 
 INSERT INTO appointment_status(status_name) VALUES
-('pending'),('completed'),('canceled');
+('Pending'),('Completed'),('Canceled');
 
 -- test
 EXEC spInsertAppointment @p_id_appointment = '3F2504E0-4F89-11D3-9A0C-0305E82C3301', @p_title = 'HSAJFASJFSLD', @p_description = 'jjflasjflsfsjafjklfdjfafj', @p_due_date = '2026-12-12';

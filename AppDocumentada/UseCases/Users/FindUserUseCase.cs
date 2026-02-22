@@ -3,7 +3,7 @@ using BusinessLogic.Interfaces;
 
 namespace BusinessLogic.UseCases.Users
 {
-    public class FindUserUseCase
+    internal class FindUserUseCase
     {
         private readonly IUserRepository _userRepo;
 

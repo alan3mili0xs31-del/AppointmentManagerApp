@@ -30,6 +30,7 @@ namespace AppointmentUI
             LblAppointmentTitle.Text = appointment.Title;
             RtbAppointmentDescription.Text = appointment.Description;
             LblAppointmentDueDate.Text = appointment.DueDate.ToString();
+            LblAppointmentCreationDate.Text = appointment.CreationDate.ToString();
             LblAppointmentStatus.Text = GetAppointmentStatusName(appointment.AppointmentStatus);
         }
 

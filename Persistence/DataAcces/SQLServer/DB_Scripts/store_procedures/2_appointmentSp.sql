@@ -73,5 +73,47 @@ BEGIN
 END;
 
 
--- Exec spGetAppointmentsByUserId @p_id_user = '3F2504E0-4F89-11D3-9A0C-0305E82C3301';
+Exec spGetAppointmentsByUserId @p_id_user = '3F2504E0-4F89-11D3-9A0C-0305E82C3301';
 -- Exec spInsertAppointment @p_id_appointment = '3F2504E0-4F89-11D3-9A0C-0305E82C3302', @p_title = 'FAJLFDSJLFKAF', @p_description = 'FALFJDSKLFJSFLKFAF', @p_due_date = '2026-3-1', @p_id_user = '3F2504E0-4F89-11D3-9A0C-0305E82C3301';
+
+GO
+CREATE OR ALTER PROCEDURE spGetAllAppointments
+	@p_title NVARCHAR(100) = NULL,
+    @p_id_appointment_status INT = NULL
+AS 
+BEGIN
+	    SET NOCOUNT ON;
+
+	SELECT
+		id_appointment,
+		title,
+		description,
+		due_date,
+		id_user,
+		id_appointment_status,
+		creation_date
+	FROM
+		dbo.appointments
+	WHERE
+		(
+			@p_id_appointment_status IS NULL
+			OR id_appointment_status = @p_id_appointment_status
+		)
+        AND
+        (
+            @p_title IS NULL
+            OR title LIKE '%' + @p_title + '%'
+        );
+END;
+
+
+GO 
+CREATE OR ALTER PROCEDURE spGetAppointmentStatus
+AS
+BEGIN
+	SELECT
+		id_appointment_status,
+		status_name
+	FROM 
+		appointment_status
+END;

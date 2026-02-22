@@ -1,6 +1,8 @@
-using BusinessLogic.UseCases;
+using BusinessLogic.UseCases.Appointments;
+using BusinessLogic.UseCases.Users;
 using Persistence.DataAcces.SQLServer;
-using Persistence.Repositories;
+using Persistence.Repositories.AppointmentRepos;
+using Persistence.Repositories.UserRepos;
 
 namespace AppointmentUI
 {
@@ -22,6 +24,7 @@ namespace AppointmentUI
             var sqlDbConnection = new SqlDbConnection(connString);
             var sqlServerQueryManager = new SQLServerQueryManager(sqlDbConnection);
             var appointmentDBRepo = new AppointmentDBRepo(sqlServerQueryManager);
+            var userDBRepo = new UserDBRepo(sqlServerQueryManager);
 
             /*
             var getAppointmentsUC = new GetAppointmentsUseCase(appointmentMemoryRepo);
@@ -30,7 +33,8 @@ namespace AppointmentUI
             var cancelAppointmentUC = new CancelAppointmentUseCase(appointmentMemoryRepo);
             var updateAppointment = new UpdateAppointmentUseCase(appointmentMemoryRepo);
             */
-            var getAppointmentsUC = new GetAllAppointmentsUseCase(appointmentDBRepo);
+            var logInUC = new LogInUseCase(userDBRepo);
+            var getAppointmentsUC = new GetAppointmentsByUserIdUseCase(appointmentDBRepo);
             var createAppointmentUC = new CreateAppointmentUseCase(appointmentDBRepo);
             var completeAppointmentUC = new CompleteAppointmentUseCase(appointmentDBRepo);
             var cancelAppointmentUC = new CancelAppointmentUseCase(appointmentDBRepo);
@@ -38,7 +42,8 @@ namespace AppointmentUI
             var getAppointmentStatus = new GetAppointmentStatusUseCase(appointmentDBRepo);
 
             Application.Run(
-                new AppointmentDashboard(
+                new UserLogin(
+                    logInUC,
                     getAppointmentsUC, 
                     createAppointmentUC, 
                     completeAppointmentUC, 

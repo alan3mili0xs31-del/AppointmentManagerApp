@@ -117,7 +117,9 @@ BEGIN
 		title,
 		description,
 		due_date,
-		id_appointment_status
+		id_user,
+		id_appointment_status,
+		creation_date
 	FROM
 		dbo.appointments
 	WHERE

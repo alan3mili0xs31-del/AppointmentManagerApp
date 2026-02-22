@@ -22,6 +22,7 @@ namespace AppointmentUI
 
         public bool EditMode { get; private set; } = false;
         private Guid _selectedAppointmentId = Guid.Empty;
+        private Guid _loggedUserId = Guid.Empty;
 
         public AppointmentCreator(CreateAppointmentUseCase createAppointmentUC)
         {
@@ -92,7 +93,7 @@ namespace AppointmentUI
                 string description = RtbAppointmentDescription.Text.Trim();
                 DateTime dueDate = DtpAppointmentDueDate.Value;
 
-                var newAppointmentId = _createAppointment.Execute(title, description, dueDate);
+                var newAppointmentId = _createAppointment.Execute(title, description, dueDate, _loggedUserId);
                 MessageBox.Show($"New appointment with id <{newAppointmentId}> created!");
                 AppointmentDataSubmitted?.Invoke();
                 CleanControls();
@@ -117,6 +118,11 @@ namespace AppointmentUI
             TxtbAppointmentTitle.Text = appointment.Title;
             RtbAppointmentDescription.Text = appointment.Description;
             DtpAppointmentDueDate.Value = appointment.DueDate;
+        }
+
+        public void LoadUserId(Guid userId)
+        {
+            _loggedUserId = userId;
         }
     }
 }

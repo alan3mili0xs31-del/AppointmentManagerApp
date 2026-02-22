@@ -9,13 +9,15 @@ namespace AppointmentUI
         private readonly AppointmentCreator _appointmentCreator;
         private readonly AppointmentViewer _appointmentViewer;
         private readonly AppointmentCreator _appointmentEditor;
-        private readonly GetAllAppointmentsUseCase _getAppointments;
+        private readonly GetAppointmentsByUserIdUseCase _getAppointments;
         private readonly CompleteAppointmentUseCase _completeAppointment;
         private readonly CancelAppointmentUseCase _cancelAppointment;
         private readonly GetAppointmentStatusUseCase _getAppointmentStatus;
+        private User? _userLogged = null;
+        public event Action? SessionClosed;
 
         public AppointmentDashboard(
-            GetAllAppointmentsUseCase getAppointmentUC,
+            GetAppointmentsByUserIdUseCase getAppointmentUC,
             CreateAppointmentUseCase createAppointmentUC,
             CompleteAppointmentUseCase completeAppointmentUC,
             CancelAppointmentUseCase cancelAppointmentUC,
@@ -32,11 +34,11 @@ namespace AppointmentUI
             _getAppointments = getAppointmentUC;
             _completeAppointment = completeAppointmentUC;
             _cancelAppointment = cancelAppointmentUC;
-           _getAppointmentStatus = getAppointmentStatus;
+            _getAppointmentStatus = getAppointmentStatus;
 
             InitializeComponent();
 
-            
+
         }
 
         /// <summary>
@@ -46,8 +48,13 @@ namespace AppointmentUI
         {
             if (CmbAppointmentStatus.SelectedIndex != 0)
                 CmbAppointmentStatus.SelectedIndex = 0;
-            else 
+            else
                 LoadAppointmentsIntoList();
+        }
+
+        public void LoadUserInfoIntoForm(User user)
+        {
+            _userLogged = user;
         }
 
         private void AppointmentDashboard_Load(object sender, EventArgs e)
@@ -125,13 +132,19 @@ namespace AppointmentUI
             try
             {
                 int appointmentStatusSelected = int.TryParse(CmbAppointmentStatus.SelectedValue?.ToString(), out int status) ? status : 1;
-                var appointmentStatusList = _getAppointments.Execute(appointmentStatus: appointmentStatusSelected);
+                var appointmentStatusList = _getAppointments.Execute(GetUserId(), appointmentStatus: appointmentStatusSelected);
                 LoadAppointmentsIntoList(appointmentStatusList);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private Guid GetUserId()
+        {
+            return _userLogged?.Id ??
+                throw new KeyNotFoundException("User's id has not been loaded correctly.");
         }
 
         /// <summary>
@@ -164,7 +177,7 @@ namespace AppointmentUI
             try
             {
                 LbAppointments.DataSource = null;
-                LbAppointments.DataSource = appointments ?? _getAppointments.Execute(appointmentStatus: 1);
+                LbAppointments.DataSource = appointments ?? _getAppointments.Execute(GetUserId(), appointmentStatus: 1);
                 LbAppointments.DisplayMember = "title";
             }
             catch (Exception ex)
@@ -194,6 +207,7 @@ namespace AppointmentUI
             {
                 _appointmentCreator.CleanControls();
                 _appointmentCreator.ChangeToCreateMode();
+                _appointmentCreator.LoadUserId(GetUserId());
                 _appointmentCreator.Show();
                 _appointmentCreator.Activate();
             }
@@ -277,22 +291,12 @@ namespace AppointmentUI
             }
         }
 
-        private void LockAppointmentSelectedButtons()
+        private void AppointmentDashboard_FormClosing(object sender, FormClosingEventArgs e)
         {
-            BtnEditAppointment.Enabled = false;
-            BtnShowAppointmentDetails.Enabled = false;
-            BtnCompleteAppointment.Enabled = false;
-            BtnCancelAppointment.Enabled = false;
+            _appointmentCreator.AppointmentDataSubmitted -= Appointment_DataSubmitted;
+            _appointmentEditor.AppointmentDataSubmitted -= Appointment_DataSubmitted;
+            Hide();
+            SessionClosed?.Invoke();
         }
-
-        private void UnlockAppointmetSelectedButtons()
-        {
-            BtnEditAppointment.Enabled = true;
-            BtnShowAppointmentDetails.Enabled = true;
-            BtnCompleteAppointment.Enabled = true;
-            BtnCancelAppointment.Enabled = true;
-        }
-
-
     }
 }
