@@ -11,6 +11,9 @@ namespace BusinessLogic.UseCases
             _appointmentRepo = appointmentRepo;
         }
 
+        /// <summary>
+        /// Change pending status from pending to canceled.
+        /// </summary>
         public bool Execute(Guid id)
         {
             var appointment = new FindAppointmentUseCase(_appointmentRepo).Execute(id);

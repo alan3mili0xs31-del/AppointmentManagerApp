@@ -35,6 +35,7 @@ namespace AppointmentUI
             var completeAppointmentUC = new CompleteAppointmentUseCase(appointmentDBRepo);
             var cancelAppointmentUC = new CancelAppointmentUseCase(appointmentDBRepo);
             var updateAppointment = new UpdateAppointmentUseCase(appointmentDBRepo);
+            var getAppointmentStatus = new GetAppointmentStatusUseCase(appointmentDBRepo);
 
             Application.Run(
                 new AppointmentDashboard(
@@ -42,7 +43,8 @@ namespace AppointmentUI
                     createAppointmentUC, 
                     completeAppointmentUC, 
                     cancelAppointmentUC,
-                    updateAppointment
+                    updateAppointment,
+                    getAppointmentStatus
                 )
             );
         }

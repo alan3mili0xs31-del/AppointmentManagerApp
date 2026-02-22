@@ -15,6 +15,11 @@ namespace Persistence.Repositories
             throw new NotImplementedException();
         }
 
+        public List<AppointmentStatus> GetAppointmentStatus()
+        {
+            throw new NotImplementedException();
+        }
+
         public Appointment? GetById(Guid id)
         {
             throw new NotImplementedException();

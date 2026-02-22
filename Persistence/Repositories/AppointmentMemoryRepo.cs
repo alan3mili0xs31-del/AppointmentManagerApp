@@ -20,12 +20,9 @@ namespace Persistence.Repositories
             if (parameters.Title != null)
                 appointments = _appointments.FindAll((appointment) => 
                     appointment.Title.Contains(parameters.Title, StringComparison.CurrentCultureIgnoreCase));
-            if (parameters.IncludeCanceled)
+            if (parameters.AppointmentStatus != null)
                 appointments.AddRange(_appointments.FindAll((appointment) =>
-                    appointment.AppointmentStatus == 3));
-            if (parameters.IncludeCompleted)
-                appointments.AddRange(_appointments.FindAll((appointment) =>
-                    appointment.AppointmentStatus == 2));
+                    appointment.AppointmentStatus == parameters.AppointmentStatus));
             return appointments;
         }
 
@@ -46,6 +43,11 @@ namespace Persistence.Repositories
             _appointments.Remove(appointment);
             _appointments.Add(appointment);
             return true;
+        }
+
+        List<AppointmentStatus> IAppointmentRepository.GetAppointmentStatus()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -24,7 +24,7 @@ namespace Persistence.DataAcces.SQLServer
         /// <returns>
         /// Returns true if the execution was successful or false if not.
         /// </returns>
-        internal bool ExecuteNonQuerySP(string spName, Action<SqlCommand> parameters)
+        internal bool ExecuteNonQuerySP(string spName, Action<SqlCommand>? parameters = null)
         {
             using (var conn = _sqlDbConnection.CreateConnection())
             {
@@ -32,7 +32,7 @@ namespace Persistence.DataAcces.SQLServer
                 {
                     command.CommandType = CommandType.StoredProcedure;
 
-                    parameters.Invoke(command);
+                    parameters?.Invoke(command);
 
                     conn.Open();
 
@@ -57,7 +57,7 @@ namespace Persistence.DataAcces.SQLServer
         /// <returns>
         /// Returns a datatable with the data retrieved from Database.
         /// </returns>
-        internal DataTable ExecuteQuerySP(string spName, Action<SqlCommand> parameters)
+        internal DataTable ExecuteQuerySP(string spName, Action<SqlCommand>? parameters = null)
         {
             using (var conn = _sqlDbConnection.CreateConnection())
             {
@@ -65,7 +65,7 @@ namespace Persistence.DataAcces.SQLServer
                 {
                     command.CommandType = CommandType.StoredProcedure;
 
-                    parameters.Invoke(command);
+                    parameters?.Invoke(command);
 
                     conn.Open();
 
@@ -92,7 +92,7 @@ namespace Persistence.DataAcces.SQLServer
         /// <returns>
         /// Returns the id of the barely-created row.
         /// </returns>
-        internal Guid ExecuteScalarSP(string spName, Action<SqlCommand> parameters)
+        internal Guid ExecuteScalarSP(string spName, Action<SqlCommand>? parameters = null)
         {
             using (var conn = _sqlDbConnection.CreateConnection())
             {
@@ -100,7 +100,7 @@ namespace Persistence.DataAcces.SQLServer
                 {
                     command.CommandType = CommandType.StoredProcedure;
 
-                    parameters.Invoke(command);
+                    parameters?.Invoke(command);
 
                     conn.Open();
 

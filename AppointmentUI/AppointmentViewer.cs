@@ -1,5 +1,6 @@
 ﻿using AppointmentUI.Interfaces;
 using BusinessLogic.Entities;
+using BusinessLogic.UseCases;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,9 +15,14 @@ namespace AppointmentUI
 {
     public partial class AppointmentViewer : Form, ILoadAppointmentDetails
     {
-        public AppointmentViewer()
+        private readonly GetAppointmentStatusUseCase _getAppointmentStatus;
+        private List<AppointmentStatus>? _appointmentStatus;
+
+        public AppointmentViewer(GetAppointmentStatusUseCase getAppointmentStatus)
         {
+            _getAppointmentStatus = getAppointmentStatus;
             InitializeComponent();
+            LoadAppointmentStatus();
         }
 
         public void LoadAppointmentDetails(Appointment appointment)
@@ -24,11 +30,25 @@ namespace AppointmentUI
             LblAppointmentTitle.Text = appointment.Title;
             RtbAppointmentDescription.Text = appointment.Description;
             LblAppointmentDueDate.Text = appointment.DueDate.ToString();
-            int appointmentStatus = appointment.AppointmentStatus; 
-            LblAppointmentStatus.Text = 
-                appointmentStatus == 1 ? "Pending" 
-                : appointmentStatus == 2 ? "Completed" 
-                : "Canceled";
+            LblAppointmentStatus.Text = GetAppointmentStatusName(appointment.AppointmentStatus);
+        }
+
+        private void LoadAppointmentStatus()
+        {
+            try
+            {
+                _appointmentStatus = _getAppointmentStatus.Execute();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private string GetAppointmentStatusName(int id)
+        {
+            return _appointmentStatus?.Find((status) => status.Id == id)?.StatusName 
+                ?? "Not Specified";
         }
 
         private void AppointmentViewer_FormClosing(object sender, FormClosingEventArgs e)
@@ -36,5 +56,7 @@ namespace AppointmentUI
             e.Cancel = true;
             Hide();
         }
+
+
     }
 }

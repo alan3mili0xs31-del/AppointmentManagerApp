@@ -12,15 +12,12 @@ namespace BusinessLogic.UseCases
             _appointmentRepo = appointmentRepo;
         }
 
-        public List<Appointment> Execute(string? title = null, 
-            bool includeCanceled = false, 
-            bool includeCompleted = false)
+        public List<Appointment> Execute(string? title = null, int? appointmentStatus = null)
         {
             var parameters = new AppointmentFilter()
             {
                 Title = title,
-                IncludeCanceled = includeCanceled,
-                IncludeCompleted = includeCompleted
+                AppointmentStatus = appointmentStatus
             };
             return _appointmentRepo.GetAll(parameters);
         }

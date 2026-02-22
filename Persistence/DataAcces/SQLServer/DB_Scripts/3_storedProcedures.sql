@@ -72,7 +72,7 @@ BEGIN
 END;
 
 
-
+/*
 GO
 CREATE OR ALTER PROCEDURE spGetAppointments
 	@p_title NVARCHAR(100) = NULL,
@@ -101,4 +101,45 @@ BEGIN
             @p_title IS NULL
             OR title LIKE '%' + @p_title + '%'
         );
+END;
+*/
+
+GO
+CREATE OR ALTER PROCEDURE spGetAppointments
+	@p_title NVARCHAR(100) = NULL,
+    @p_id_appointment_status INT = NULL
+AS 
+BEGIN
+	    SET NOCOUNT ON;
+
+	SELECT
+		id_appointment,
+		title,
+		description,
+		due_date,
+		id_appointment_status
+	FROM
+		dbo.appointments
+	WHERE
+		(
+			@p_id_appointment_status IS NULL
+			OR id_appointment_status = @p_id_appointment_status
+		)
+        AND
+        (
+            @p_title IS NULL
+            OR title LIKE '%' + @p_title + '%'
+        );
+END;
+
+
+GO 
+CREATE OR ALTER PROCEDURE spGetAppointmentStatus
+AS
+BEGIN
+	SELECT
+		id_appointment_status,
+		status_name
+	FROM 
+		appointment_status
 END;

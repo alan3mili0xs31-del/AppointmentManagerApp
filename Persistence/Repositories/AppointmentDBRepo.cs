@@ -30,13 +30,11 @@ namespace Persistence.Repositories
             {
                 if (parameters.Title != null) 
                     command.Parameters.Add("@p_title", SqlDbType.NVarChar).Value = parameters.Title;
-                if (parameters.IncludeCompleted)
-                    command.Parameters.Add("@p_include_completed", SqlDbType.Int).Value = 1;
-                if (parameters.IncludeCanceled)
-                    command.Parameters.Add("@p_include_canceled", SqlDbType.Int).Value = 1;
+                if (parameters.AppointmentStatus != null)
+                    command.Parameters.Add("@p_id_appointment_status", SqlDbType.Int).Value = parameters.AppointmentStatus;
             });
 
-            return MapTableToAppointmentsList(appointments);
+            return MapTableToAppointmentsToList(appointments);
         }
 
         public Appointment? GetById(Guid id)
@@ -75,6 +73,14 @@ namespace Persistence.Repositories
 
             return result;
         }
+        
+        public List<AppointmentStatus> GetAppointmentStatus()
+        {
+            var appointmentStatus = _queryManager.ExecuteQuerySP("spGetAppointmentStatus");
+
+            return MapTableAppointmentStatusToList(appointmentStatus);
+        }
+
 
         private Appointment MapRowToAppointment(DataRow row)
         {
@@ -87,12 +93,24 @@ namespace Persistence.Repositories
             return new Appointment(id, title, description, dueDate, appointmentStatus);
         }
 
-        private List<Appointment> MapTableToAppointmentsList(DataTable table)
+        private List<Appointment> MapTableToAppointmentsToList(DataTable table)
         {
             var appointments = new List<Appointment>();
             foreach (DataRow row in table.Rows)
                 appointments.Add(MapRowToAppointment(row));
             return appointments;
+        }
+
+        private List<AppointmentStatus> MapTableAppointmentStatusToList(DataTable table)
+        {
+            var appointmentStatus = new List<AppointmentStatus>();
+            foreach (DataRow row in table.Rows)
+                appointmentStatus.Add(
+                    new AppointmentStatus(
+                    Convert.ToInt32(row["id_appointment_status"]),
+                    row["status_name"].ToString() ?? string.Empty)
+                    );
+            return appointmentStatus;
         }
     }
 }

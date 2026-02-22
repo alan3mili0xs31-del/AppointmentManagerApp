@@ -29,7 +29,9 @@
         private void InitializeComponent()
         {
             groupBox1 = new GroupBox();
-            ChkbShowPendingOnly = new CheckBox();
+            label2 = new Label();
+            label1 = new Label();
+            CmbAppointmentStatus = new ComboBox();
             BtnEditAppointment = new Button();
             BtnShowAppointmentDetails = new Button();
             BtnCancelAppointment = new Button();
@@ -41,7 +43,9 @@
             // 
             // groupBox1
             // 
-            groupBox1.Controls.Add(ChkbShowPendingOnly);
+            groupBox1.Controls.Add(label2);
+            groupBox1.Controls.Add(label1);
+            groupBox1.Controls.Add(CmbAppointmentStatus);
             groupBox1.Controls.Add(BtnEditAppointment);
             groupBox1.Controls.Add(BtnShowAppointmentDetails);
             groupBox1.Controls.Add(BtnCancelAppointment);
@@ -55,18 +59,32 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Appointments";
             // 
-            // ChkbShowPendingOnly
+            // label2
             // 
-            ChkbShowPendingOnly.AutoSize = true;
-            ChkbShowPendingOnly.Checked = true;
-            ChkbShowPendingOnly.CheckState = CheckState.Checked;
-            ChkbShowPendingOnly.Location = new Point(142, 365);
-            ChkbShowPendingOnly.Name = "ChkbShowPendingOnly";
-            ChkbShowPendingOnly.Size = new Size(210, 32);
-            ChkbShowPendingOnly.TabIndex = 7;
-            ChkbShowPendingOnly.Text = "Show Pending Only ";
-            ChkbShowPendingOnly.UseVisualStyleBackColor = true;
-            ChkbShowPendingOnly.CheckedChanged += ChkbShowPendingOnly_CheckedChanged;
+            label2.AutoSize = true;
+            label2.Location = new Point(313, 371);
+            label2.Name = "label2";
+            label2.Size = new Size(53, 28);
+            label2.TabIndex = 10;
+            label2.Text = "Only";
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(121, 371);
+            label1.Name = "label1";
+            label1.Size = new Size(60, 28);
+            label1.TabIndex = 9;
+            label1.Text = "Show";
+            // 
+            // CmbAppointmentStatus
+            // 
+            CmbAppointmentStatus.DropDownStyle = ComboBoxStyle.DropDownList;
+            CmbAppointmentStatus.Location = new Point(187, 368);
+            CmbAppointmentStatus.Name = "CmbAppointmentStatus";
+            CmbAppointmentStatus.Size = new Size(120, 36);
+            CmbAppointmentStatus.TabIndex = 8;
+            CmbAppointmentStatus.SelectedIndexChanged += CmbAppointmentStatus_SelectedIndexChanged;
             // 
             // BtnEditAppointment
             // 
@@ -138,7 +156,6 @@
             Margin = new Padding(4);
             Name = "AppointmentDashboard";
             Text = "Appointment Dashboard";
-            Activated += AppointmentDashboard_Activated;
             Load += AppointmentDashboard_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
@@ -153,7 +170,9 @@
         private Button BtnShowAppointmentDetails;
         private Button BtnCancelAppointment;
         private Button BtnCompleteAppointment;
-        private CheckBox ChkbShowPendingOnly;
         private Button BtnEditAppointment;
+        private Label label2;
+        private Label label1;
+        private ComboBox CmbAppointmentStatus;
     }
 }

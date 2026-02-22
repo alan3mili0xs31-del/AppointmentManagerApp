@@ -15,10 +15,10 @@ CREATE TABLE appointments (
 
 CREATE TABLE appointment_status (
 	id_appointment_status INT IDENTITY(1,1) PRIMARY KEY,
-	description VARCHAR(50) NOT NULL
+	status_name VARCHAR(50) NOT NULL
 );
 
-INSERT INTO appointment_status(description) VALUES
+INSERT INTO appointment_status(status_name) VALUES
 ('pending'),('completed'),('canceled');
 
 -- test

@@ -17,17 +17,24 @@ namespace AppointmentUI
     {
         private readonly CreateAppointmentUseCase _createAppointment;
         private readonly UpdateAppointmentUseCase _updateAppointment;
+
+        public event Action? AppointmentDataSubmitted;
+
         public bool EditMode { get; private set; } = false;
         private Guid _selectedAppointmentId = Guid.Empty;
 
-        public AppointmentCreator(
-            CreateAppointmentUseCase createAppointmentUC,
-            UpdateAppointmentUseCase updateAppointment)
+        public AppointmentCreator(CreateAppointmentUseCase createAppointmentUC)
         {
             _createAppointment = createAppointmentUC;
-            _updateAppointment = updateAppointment;
-
             InitializeComponent();
+            ChangeToCreateMode();
+        }
+
+        public AppointmentCreator(UpdateAppointmentUseCase updateAppointment)
+        {
+            _updateAppointment = updateAppointment;
+            InitializeComponent();
+            ChangeToEditMode();
         }
 
         public void ChangeToEditMode()
@@ -55,6 +62,7 @@ namespace AppointmentUI
             else
                 EditAppointment();
         }
+        
 
         private void EditAppointment()
         {
@@ -66,7 +74,9 @@ namespace AppointmentUI
 
                 _updateAppointment.Execute(_selectedAppointmentId, title, description, dueDate);
                 MessageBox.Show("Appointment was updated successfully!");
+                AppointmentDataSubmitted?.Invoke();
                 CleanControls();
+                Hide();
             }
             catch (Exception ex)
             {
@@ -84,7 +94,9 @@ namespace AppointmentUI
 
                 var newAppointmentId = _createAppointment.Execute(title, description, dueDate);
                 MessageBox.Show($"New appointment with id <{newAppointmentId}> created!");
+                AppointmentDataSubmitted?.Invoke();
                 CleanControls();
+                Hide();
             }
             catch (Exception ex)
             {
